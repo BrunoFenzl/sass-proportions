@@ -1,0 +1,156 @@
+/// Name your classes as you want
+$prefix: 'prop';
+
+/// Set of proportions to generate
+$proportions: (
+	'5x2': 	(5, 2), 
+	'5x3': 	(5, 3),
+	'16x9':	(16, 9)	
+);
+
+/// Breakpoints where to apply different proportions. 
+/// Classes will be generated within these media queries
+$grid-breakpoints: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px
+) !default;
+
+/// Set the vertical and horzontal spacing spacing between blocks
+/// default to the bootstrap variable for gutters
+$grid-gutter-width-base: 1rem!default;
+
+/// helper for removing margins and padding from bootstrap rows and columns
+@mixin reset-row() {
+	display: flex;
+	flex-flow: row wrap;
+	
+	[class*="col-"] {
+		padding-right: 0;
+		padding-left: 0;
+	}
+}
+
+/// Mixin for reseting block height and make it auto
+@mixin reset-props() {
+	height: auto;
+	padding-bottom: 0;
+}
+
+
+%base-prop{
+	position: relative;
+	width: 100%!important;
+	height: 0;
+}
+
+/// Common properties for all squares
+/// @output basic properties for a square
+@mixin make-base-prop() {
+	@extend %base-prop;
+}
+
+/// Generate the proportions specific for a block
+/// @output The pading-bottom proportional to the element's width
+@mixin make-prop($width, $height) {
+	padding-bottom: percentage($height / $width);
+}
+
+/// Find the width of given breakpoint key and return it or null if width == 0.
+/// Taken from Bootstrap 4
+/// @param {String} $name - Name of the breakpoint. should be defined the $grid-breakpoints map.
+/// @param {Map} $bps - Map of Breakpoint names and widths. Defaults to $grid-breakpoints.
+/// @return {Number || Null} Minimum breakpoint width. Null for the smallest (first) breakpoint.
+@function mq-min($name, $bps: $grid-breakpoints) {
+	$min: map-get($bps, $name);
+	@return if($min != 0, $min, null);
+}
+
+
+/// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+/// Makes the @content apply to the given breakpoint and wider.
+/// Taken from Bootstrap 4
+/// @param {String} $name - Name of the breakpoint. should be defined the $grid-breakpoints map.
+/// @param {Map} $bps - Map of Breakpoint names and widths. Defaults to $grid-breakpoints.
+/// @output Content of the mixin. 
+@mixin mq-up($name, $bps: $grid-breakpoints) {
+	$min: mq-min($name, $bps);
+	@if $min {
+		@media (min-width: $min) {
+			@content;
+		}
+	} @else {
+		@content;
+	}
+}
+
+/// Loop through all Breakpoints and proportions and generate responsive classes
+/// @param {Map} $props - Map of all poportions to generate
+/// @param {Map} $bps - Map of all breakpoints
+@mixin make-props($props: $proportions, $bps: $grid-breakpoints) {
+
+	%base-prop {
+		@include make-base-prop();
+	}
+
+	@each $breakpoint in map-keys($bps) {
+		
+		// Generate the basic styles for all squares.
+		@each $prop in map-keys($props) {
+
+			$values: map-get($props, $prop);
+			$w: nth($values, 1); 
+			$h: nth($values, 2);
+
+			.#{$prefix}-#{$breakpoint}-#{$w}x#{$h} {
+				@extend %base-prop;
+			}
+		}
+		
+		@include mq-up($breakpoint, $bps) {
+			
+			// Generate reset classes for all breakpoints
+			.#{$prefix}-#{$breakpoint}-reset{
+				@include reset-props();
+			}
+
+			@each $prop in map-keys($props) {
+				
+				$values: map-get($props, $prop);
+
+				$w: nth($values, 1); 
+				$h: nth($values, 2);
+				
+				.#{$prefix}-#{$breakpoint}-#{$w}x#{$h} {
+					@include make-prop($w, $h);
+				}
+			}
+
+		}
+	}
+}
+
+.#{$prefix}-inner{
+	position: absolute;
+	top: $grid-gutter-width-base/2;
+	right: $grid-gutter-width-base/2;
+	bottom: $grid-gutter-width-base/2;
+	left: $grid-gutter-width-base/2;
+	overflow: hidden;
+
+	&.nopad{
+		top: 0!important;
+		right: 0!important;
+		bottom: 0!important;
+		left: 0!important;
+	}
+}
+
+/// helper for removing paddings from bootstrap columns
+.#{$prefix}-row {
+	@include reset-row();
+}
+
+@include make-props();

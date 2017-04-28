@@ -1,0 +1,36 @@
+{
+  "name": "squares",
+  "version": "1.0.0",
+  "description": "Sass Mixins set to generate proportional squares",
+  "main": "./src/main.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrunoFenzl/Squares.git"
+  },
+  "keywords": [
+    "SASS",
+    "CSS",
+    "Proportions",
+    "Layout"
+  ],
+  "author": "Bruno Fenzl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BrunoFenzl/Squares/issues"
+  },
+  "homepage": "https://github.com/BrunoFenzl/Squares#readme",
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-cssbeautify": "latest",
+    "gulp-csscomb": "latest",
+    "gulp-csso": "latest",
+    "gulp-load-plugins": "latest",
+    "gulp-rename": "latest",
+    "gulp-sass": "latest",
+    "sassdoc": "^2.2.2"
+  }
+}
