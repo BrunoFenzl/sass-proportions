@@ -22,6 +22,8 @@ $grid-breakpoints: (
 /// default to the bootstrap variable for gutters
 $grid-gutter-width-base: 1rem!default;
 
+$debug: false;
+
 /// helper for removing margins and padding from bootstrap rows and columns
 @mixin reset-row() {
 	display: flex;
@@ -56,6 +58,19 @@ $grid-gutter-width-base: 1rem!default;
 /// @output The pading-bottom proportional to the element's width
 @mixin make-prop($width, $height) {
 	padding-bottom: percentage($height / $width);
+
+	@if ($debug == true) {
+		.prop-inner{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			&::after{
+				content: '#{$width}x#{$height}';
+				display: block;
+			}
+		}
+	}
 }
 
 /// Find the width of given breakpoint key and return it or null if width == 0.
