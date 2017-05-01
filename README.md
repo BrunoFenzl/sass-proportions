@@ -1,4 +1,4 @@
-# Responsive proportional css layouts.
+# Responsive proportional css elements & layouts.
 
 This is a set of mixins aimed to create css only, responsive proportional elements. Imagine a perfect square (1:1) on mobile, a landscape (3:2) on tablets and wide screen (16:9) on larger monitors. Or maybe you want to reset proportions to auto on some breakpoints. You can even create grids and layouts with it (not to confuse with the CSS Grid Layout Module).
 
@@ -7,13 +7,13 @@ Example: coming soon!
 ## Installing
 
 ```javascript
-npm install sassy-proportions
+npm install sass-proportions
 ```
 
 ## Build
 
 ```javascript
-npm install && gulp
+cd sass-proportions && npm install && gulp
 ```
 
 ## How to use
@@ -33,7 +33,7 @@ Below is the list of variables and their default values:
 ```scss
 $ns: 'prop' !default;
 ```
-Namespace to add to the generate classes. Default is 'prop'. Classes will be generated like .mynamespace-breakpoint-proportion
+Namespace to add to the generated classes. Default is 'prop'. Classes will be generated like .namespace-breakpoint-proportion
 
 ```scss
 $proportions: (
@@ -47,7 +47,7 @@ $proportions: (
 	.
 ) !default;
 ```
-Nested map of proportions to generate. Proportions are defined with a string key e.g. '5x2' and a map of unitless sizes in the order (width, height). The keys will be used in the class name, so for example if could have proportion-breakpoint-5x2. Totaly up to you.
+Nested map of proportions to generate. Proportions are defined with a string key e.g. '5x2' and a map of unitless sizes in the order (width, height). The keys will be used in the class name, for example: proportion-breakpoint-5x2.
 
 ```scss
 $grid-breakpoints: (
