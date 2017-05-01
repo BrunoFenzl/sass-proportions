@@ -2,6 +2,7 @@
 
 This is a set of mixins aimed to create css only, responsive proportional elements. Imagine a perfect square (1:1) on mobile, a landscape (3:2) on tablets and wide screen (16:9) on larger monitors. Or maybe you want to reset proportions to auto on some breakpoints. You can even create grids and layouts with it (not to confuse with the CSS Grid Layout Module).
 
+[Example](https://brunofenzl.github.io/sass-proportions/)
 
 ## Installing
 
