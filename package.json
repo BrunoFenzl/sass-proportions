@@ -1,5 +1,5 @@
 {
-  "name": "squares",
+  "name": "sass-proportions",
   "version": "1.0.0",
   "description": "Sass Mixins set to generate proportional elements and layouts",
   "main": "./src/main.scss",
