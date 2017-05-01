@@ -47,7 +47,7 @@ $proportions: (
 	.
 ) !default;
 ```
-Nested map of proportions to generate. Proportions are defined with a string key e.g. '5x2' and a map of unitless sizes in the order (width, height). The keys will be used in the class name, so for example if would have prop-*-5x2. If you decided to name your proportion prop-*-widescreen, the entry in the map would look like 'widescreen': (16, 9). Totally up to you.
+Nested map of proportions to generate. Proportions are defined with a string key e.g. '5x2' and a map of unitless sizes in the order (width, height). The keys will be used in the class name, so for example if could have proportion-breakpoint-5x2. Totaly up to you.
 
 ```scss
 $grid-breakpoints: (
@@ -76,7 +76,7 @@ If true, will display an overlay with the name of the current proportion.
 ```scss
 @include make-props();
 ```
-Will generate all proportions in all breakpoints listed in $proportions and $grid-breakpoints. Remember to include make-base-prop() before to set the general proportional styles.
+Will generate all proportions in all breakpoints listed in $proportions and $grid-breakpoints. 
 
 ```scss
 @include make-prop($width, $height, $gutters: null);
@@ -87,6 +87,11 @@ Generate styles for single proportion.
 @include make-inner($gutters: $base-gutter);
 ```
 Generate styles for inner container that will hold content.
+
+```scss
+@include reset-props();
+```
+Generate reset styles for current breakpoint
 
 #### Example:
 
@@ -101,16 +106,16 @@ Generate styles for inner container that will hold content.
 }
 ```
 
-* outputs: *
+*outputs:*
 
 ```css
 .my-proportional-element{
-	// make-base-prop()
+	/* make-base-prop() outputs: */
 	position: relative;
 	width: 100%!important;
 	height: 0;
 
-	// make-prop()
+	/* make-prop(3, 2) outputs: */
 	padding-bottom: 0.6666666667%; // 2/3
 
 	.my-proportional-element__inner{
@@ -123,8 +128,3 @@ Generate styles for inner container that will hold content.
 	}
 }
 ```
-
-```scss
-@include reset-props();
-```
-Generate reset styles for current breakpoint
