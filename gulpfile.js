@@ -1,16 +1,11 @@
-// Requires
-var gulp = require('gulp');
+const gulp = require('gulp');
+const plugins = require('gulp-load-plugins')();
 
-// Include plugins
-var plugins = require('gulp-load-plugins')(); // tous les plugins de package.json
+const source = './src/main.scss';
+const destination = './dist/';
+const main = 'assets/css/styles.less';
 
-// Variables de chemins
-var source = './src/main.scss'; // dossier de travail
-var destination = './dist/'; // dossier à livrer
-var main = 'assets/css/styles.less'; // fichier Less principal
-
-// Tâche "css" = LESS + autoprefixer + CSScomb + beautify + minify
-gulp.task('css', function () {
+gulp.task('css', () => {
   return gulp.src(source)
     .pipe(plugins.sass())
     .pipe(plugins.csscomb())
@@ -22,10 +17,8 @@ gulp.task('css', function () {
     .pipe(gulp.dest(destination));
 });
 
-// Watch Files For Changes
-gulp.task('watch', function () {
+gulp.task('watch', () => {
 	gulp.watch('./src/*.scss', ['css']);
 });
 
-// Tasks
 gulp.task('default', ['css']);

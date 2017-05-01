@@ -11,10 +11,13 @@
     "url": "git+https://github.com/BrunoFenzl/Squares.git"
   },
   "keywords": [
-    "SASS",
-    "CSS",
-    "Proportions",
-    "Layout"
+    "sass",
+    "scss",
+    "css",
+    "mixins",
+    "proportions",
+    "layout",
+    "responsive"
   ],
   "author": "Bruno Fenzl",
   "license": "MIT",

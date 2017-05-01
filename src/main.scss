@@ -1,11 +1,25 @@
-/// Name your classes as you want
-$prefix: 'prop';
+////
+/// @author Bruno Fenzl
+////
 
-/// Set of proportions to generate
+/// Namespace your classes as you like.
+$ns: 'prop';
+
+/// Set of proportions to generate. Defaults to a opionated list of default proportions.
+/// Fell free to change these.
 $proportions: (
+	'1x1': 	(1, 1),
+	'2x1': 	(2, 1),
+	'3x1': 	(3, 1),
+	'4x1': 	(4, 1),
+	'1x2': 	(1, 2),
+	'4x3': 	(4, 3),
+	'3x4': 	(3, 4),
+	'3x2':	(3, 2),
+	'2x3':	(2, 3),
 	'5x2': 	(5, 2), 
 	'5x3': 	(5, 3),
-	'16x9':	(16, 9)	
+	'16x9':	(16, 9)
 );
 
 /// Breakpoints where to apply different proportions. 
@@ -18,21 +32,23 @@ $grid-breakpoints: (
 	xl: 1200px
 ) !default;
 
-/// Set the vertical and horzontal spacing spacing between blocks
-/// default to the bootstrap variable for gutters
-$grid-gutter-width-base: 1rem!default;
+/// Set the vertical and horizontal spacing between elements.
+$base-gutter: 1rem!default;
 
+/// If true, will display an overlay with the name of the current proportion.
 $debug: false;
 
-/// helper for removing margins and padding from bootstrap rows and columns
-@mixin reset-row() {
-	display: flex;
-	flex-flow: row wrap;
-	
-	[class*="col-"] {
-		padding-right: 0;
-		padding-left: 0;
-	}
+// Default styles for proportional elements
+%base-prop{
+	position: relative;
+	width: 100%!important;
+	height: 0;
+}
+
+// Default styles for inner container
+%inner{
+	position: absolute;
+	overflow: hidden;
 }
 
 /// Mixin for reseting block height and make it auto
@@ -41,35 +57,65 @@ $debug: false;
 	padding-bottom: 0;
 }
 
-
-%base-prop{
-	position: relative;
-	width: 100%!important;
-	height: 0;
-}
-
 /// Common properties for all squares
 /// @output basic properties for a square
+/// @example css
+/// .foo{
+/// 	@include make-base-prop();
+/// }
+/// outputs:
+/// .foo{
+/// 	position: relative;
+/// 	width: 100%!important;
+/// 	height: 0;
+/// }
 @mixin make-base-prop() {
 	@extend %base-prop;
 }
 
+/// @parameter $gutters [$base-gutter] – Set the spacing between elements
+@mixin make-inner($gutters: $base-gutter) {
+	
+	@extend %inner;
+	top: $gutters/2;
+	right: $gutters/2;
+	bottom: $gutters/2;
+	left: $gutters/2;
+}
+
 /// Generate the proportions specific for a block
-/// @output The pading-bottom proportional to the element's width
-@mixin make-prop($width, $height) {
+/// @parameter {Number} $width – Used to calculate the proportion
+/// @parameter {Number} $height – Used to calculate the proportion
+/// @parameter $gutters – override global gutters for specific elements
+/// @output The padding-bottom property proportional to the element's width
+/// @example css
+/// .foo{
+///		@include make-prop(3, 2); // width, height
+/// }
+/// outputs:
+/// .foo{
+///		padding-bottom: 0.6666666667%; // 2/3
+/// }
+@mixin make-prop($width, $height, $gutters: null) {
 	padding-bottom: percentage($height / $width);
 
 	@if ($debug == true) {
-		.prop-inner{
+		.#{$ns}-inner{
 			display: flex;
 			justify-content: center;
 			align-items: center;
 
 			&::after{
 				content: '#{$width}x#{$height}';
+				position: relative;
+				z-index: 10;
 				display: block;
 			}
 		}
+	}
+	// override gutter width for this specific proportion
+	@if ($gutters != null) {
+		@include make-inner($gutters);
 	}
 }
 
@@ -101,13 +147,13 @@ $debug: false;
 	}
 }
 
-/// Loop through all Breakpoints and proportions and generate responsive classes
+/// Loop through all breakpoints and proportions and generate responsive classes
 /// @param {Map} $props - Map of all poportions to generate
 /// @param {Map} $bps - Map of all breakpoints
 @mixin make-props($props: $proportions, $bps: $grid-breakpoints) {
-
-	%base-prop {
-		@include make-base-prop();
+	
+	.#{ns}-inner{
+		@include make-inner();
 	}
 
 	@each $breakpoint in map-keys($bps) {
@@ -116,10 +162,10 @@ $debug: false;
 		@each $prop in map-keys($props) {
 
 			$values: map-get($props, $prop);
-			$w: nth($values, 1); 
-			$h: nth($values, 2);
+			$w: nth($values, 1); // first value
+			$h: nth($values, 2); // second value
 
-			.#{$prefix}-#{$breakpoint}-#{$w}x#{$h} {
+			.#{$ns}-#{$breakpoint}-#{$w}x#{$h} {
 				@extend %base-prop;
 			}
 		}
@@ -127,7 +173,7 @@ $debug: false;
 		@include mq-up($breakpoint, $bps) {
 			
 			// Generate reset classes for all breakpoints
-			.#{$prefix}-#{$breakpoint}-reset{
+			.#{$ns}-#{$breakpoint}-reset{
 				@include reset-props();
 			}
 
@@ -135,37 +181,15 @@ $debug: false;
 				
 				$values: map-get($props, $prop);
 
-				$w: nth($values, 1); 
-				$h: nth($values, 2);
+				$w: nth($values, 1); // first value
+				$h: nth($values, 2); // second value
 				
-				.#{$prefix}-#{$breakpoint}-#{$w}x#{$h} {
+				.#{$ns}-#{$breakpoint}-#{$w}x#{$h} {
 					@include make-prop($w, $h);
 				}
 			}
-
 		}
 	}
-}
-
-.#{$prefix}-inner{
-	position: absolute;
-	top: $grid-gutter-width-base/2;
-	right: $grid-gutter-width-base/2;
-	bottom: $grid-gutter-width-base/2;
-	left: $grid-gutter-width-base/2;
-	overflow: hidden;
-
-	&.nopad{
-		top: 0!important;
-		right: 0!important;
-		bottom: 0!important;
-		left: 0!important;
-	}
-}
-
-/// helper for removing paddings from bootstrap columns
-.#{$prefix}-row {
-	@include reset-row();
 }
 
 @include make-props();
