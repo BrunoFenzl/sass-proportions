@@ -1,0 +1,30 @@
+$debug: true;
+$grid-gutter-width-base: 0;
+
+@import '../../src/main';
+@import '../node_modules/bootstrap/scss/bootstrap-grid';
+
+.container-fluid{
+	max-width: 1280px;
+}
+
+.prop-inner{
+	background-color: rgba(0, 0, 255, .5);
+	color: white;
+}
+
+.two-fifth,
+.three-fifth{
+	@include make-col-ready();
+	@include make-col(12, 12);
+}
+
+@media (min-width: 768px) {
+	.two-fifth{
+		@include make-col(2, 5);
+	}
+
+	.three-fifth{
+		@include make-col(3, 5);
+	}
+}
