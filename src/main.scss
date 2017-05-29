@@ -54,23 +54,6 @@ $debug: false !default;
 	overflow: hidden;
 }
 
-/// Mixin for reseting block height and make it auto
-// %reset-props {
-// 	height: auto;
-// 	padding-top:$base-gutter/2;
-// 	padding-right:$base-gutter/2;
-// 	padding-bottom:$base-gutter/2;
-// 	padding-left:$base-gutter/2;
-	
-// 	.#{$ns}-inner{
-// 		position: initial;
-// 		top: auto;
-// 		right: auto;
-// 		bottom: auto;
-// 		left: auto;
-// 	}
-// }
-
 /// Common properties for all squares
 /// @output basic properties for a square
 /// @example css
