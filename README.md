@@ -10,12 +10,6 @@ This is a set of mixins aimed to create css only, responsive proportional elemen
 npm install sass-proportions
 ```
 
-## Build
-
-```javascript
-cd sass-proportions && npm install && gulp
-```
-
 ## How to use
 
 The main.scss comes with default proportions and variables set but won't generate any classes until you include make-props() somewhere in your scss:

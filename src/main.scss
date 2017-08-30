@@ -20,7 +20,7 @@ $proportions: (
 	'5x2': 	(5, 2), 
 	'5x3': 	(5, 3),
 	'16x9':	(16, 9)
-);
+) !default;
 
 
 /// Breakpoints where to apply different proportions. 
