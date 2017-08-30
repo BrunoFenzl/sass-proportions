@@ -1,6 +1,6 @@
 {
   "name": "sass-proportions",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Sass Mixins set to generate proportional elements and layouts",
   "main": "./src/main.scss",
   "scripts": {
