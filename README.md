@@ -110,7 +110,7 @@ Generate reset styles for current breakpoint
 	height: 0;
 
 	/* make-prop(3, 2) outputs: */
-	padding-bottom: 0.6666666667%; // 2/3
+	padding-bottom: 66.66666667%;
 
 	.my-proportional-element__inner{
 		position: absolute;
